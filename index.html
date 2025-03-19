@@ -117,13 +117,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* Video item styles */
-        /* Grid item with embedded iframe */
-        .grid-item iframe {
-            border: none;
-            display: block;
-        }
-
         /* Modal styles */
         .modal {
             display: none;
@@ -158,13 +151,6 @@
             border: 8px solid white;
         }
 
-        /* Video modal styles */
-        .video-modal-content {
-            width: 80%;
-            height: 80vh;
-            border: none;
-        }
-
         @keyframes zoomIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -172,19 +158,21 @@
 
         /* Add styles for student name in modal */
         .modal-student-name {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
             color: white;
             font-weight: bold;
             font-size: 1.5rem;
-            margin-top: 15px;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
-            background-color: rgba(0,0,0,0.4);
-            padding: 10px 20px;
-            border-radius: 10px;
+            background-color: rgba(0,0,0,0.6);
+            padding: 8px 20px;
+            border-radius: 30px;
             max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
             animation: fadeIn 0.5s ease 0.2s both;
+            z-index: 1002;
         }
 
         .close {
@@ -342,12 +330,8 @@
             
             .modal-student-name {
                 font-size: 1.2rem;
-                padding: 8px 15px;
-            }
-
-            .video-modal-content {
-                width: 95%;
-                height: 50vh;
+                padding: 6px 15px;
+                bottom: 10px;
             }
         }
 
@@ -476,12 +460,6 @@
             <img src="yousufa.jpg" alt="Yousuf A">
             <div class="student-name">Yousuf A 👍</div>
         </div>
-
-        <!-- Mr. Wong's YouTube video as a grid item with embedded iframe -->
-        <div class="grid-item">
-            <iframe width="100%" height="150" src="https://www.youtube.com/embed/ctSrxqC7Na0" frameborder="0" allowfullscreen></iframe>
-            <div class="student-name">Mr. Wong 👍</div>
-        </div>
     </div>
 
     <!-- The Modal -->
@@ -490,11 +468,9 @@
         <a class="prev">&#10094;</a>
         <a class="next">&#10095;</a>
         <img class="modal-content" id="img01">
-        <!-- Added div for student name in modal -->
+        <!-- Added div for student name in modal - now positioned as overlay -->
         <div class="modal-student-name" id="student-name-modal"></div>
     </div>
-
-    <!-- No separate video modal needed since we're embedding directly in the grid item -->
 
     <!-- Masonry Library -->
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
@@ -506,16 +482,14 @@
             // Initialize structured image data
             const allImagesArray = [];
             
-            // Regular items with single images (skip items with iframes)
+            // Regular items with single images
             document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
-                if (item.querySelector('iframe')) return; // Skip grid items that contain iframes
                 const img = item.querySelector('img');
                 if (img) {
                     allImagesArray.push({
                         src: img.src,
                         alt: img.alt,
-                        studentName: item.querySelector('.student-name').textContent,
-                        type: 'image'
+                        studentName: item.querySelector('.student-name').textContent
                     });
                 }
             });
@@ -529,8 +503,7 @@
                     allImagesArray.push({
                         src: imageSrc,
                         alt: item.querySelector('img').alt,
-                        studentName: studentName,
-                        type: 'image'
+                        studentName: studentName
                     });
                 });
             });
@@ -539,8 +512,6 @@
             const modal = document.getElementById("myModal");
             const modalImg = document.getElementById("img01");
             const modalStudentName = document.getElementById("student-name-modal");
-            
-            // No video modal elements needed
             
             // Get all grid items
             const gridItems = document.querySelectorAll('.grid-item');
@@ -569,7 +540,6 @@
             const prevBtn = document.querySelector('.prev');
             const nextBtn = document.querySelector('.next');
             const closeBtn = document.querySelector('.close');
-            // No video close button needed
 
             // Function to find index in allImagesArray by src
             function findImageIndex(src) {
@@ -605,9 +575,8 @@
                 });
             });
 
-            // Add click handlers for regular grid items (skip items with iframes)
+            // Add click handlers for regular grid items
             document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
-                if (item.querySelector('iframe')) return; // Skip grid items that contain iframes
                 item.addEventListener('click', function() {
                     const img = this.querySelector('img');
                     if (img) {
@@ -617,8 +586,6 @@
                     }
                 });
             });
-            
-            // No need for video click handler as the video is embedded directly
 
             // Add click handlers for navigation
             prevBtn.addEventListener('click', showPrevImage);
@@ -635,14 +602,12 @@
                         modal.style.display = "none";
                     }
                 }
-                }
             });
 
-            // Close button handlers
+            // Close button handler
             closeBtn.addEventListener('click', function() {
                 modal.style.display = "none";
             });
-            
 
             // Close when clicking outside the image
             modal.addEventListener('click', function(event) {
@@ -650,7 +615,6 @@
                     modal.style.display = "none";
                 }
             });
-            
             
             // Scroll progress indicator
             window.addEventListener('scroll', function() {
