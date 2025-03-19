@@ -117,6 +117,13 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
+        /* Video item styles */
+        /* Grid item with embedded iframe */
+        .grid-item iframe {
+            border: none;
+            display: block;
+        }
+
         /* Modal styles */
         .modal {
             display: none;
@@ -149,6 +156,13 @@
             border-radius: 10px;
             animation: zoomIn 0.4s ease;
             border: 8px solid white;
+        }
+
+        /* Video modal styles */
+        .video-modal-content {
+            width: 80%;
+            height: 80vh;
+            border: none;
         }
 
         @keyframes zoomIn {
@@ -330,6 +344,11 @@
                 font-size: 1.2rem;
                 padding: 8px 15px;
             }
+
+            .video-modal-content {
+                width: 95%;
+                height: 50vh;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -457,6 +476,12 @@
             <img src="yousufa.jpg" alt="Yousuf A">
             <div class="student-name">Yousuf A 👍</div>
         </div>
+
+        <!-- Mr. Wong's YouTube video as a grid item with embedded iframe -->
+        <div class="grid-item">
+            <iframe width="100%" height="150" src="https://www.youtube.com/embed/ctSrxqC7Na0" frameborder="0" allowfullscreen></iframe>
+            <div class="student-name">Mr. Wong 👍</div>
+        </div>
     </div>
 
     <!-- The Modal -->
@@ -469,6 +494,8 @@
         <div class="modal-student-name" id="student-name-modal"></div>
     </div>
 
+    <!-- No separate video modal needed since we're embedding directly in the grid item -->
+
     <!-- Masonry Library -->
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <!-- imagesLoaded Library -->
@@ -479,14 +506,16 @@
             // Initialize structured image data
             const allImagesArray = [];
             
-            // Regular items with single images
+            // Regular items with single images (skip items with iframes)
             document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
+                if (item.querySelector('iframe')) return; // Skip grid items that contain iframes
                 const img = item.querySelector('img');
                 if (img) {
                     allImagesArray.push({
                         src: img.src,
                         alt: img.alt,
-                        studentName: item.querySelector('.student-name').textContent
+                        studentName: item.querySelector('.student-name').textContent,
+                        type: 'image'
                     });
                 }
             });
@@ -500,7 +529,8 @@
                     allImagesArray.push({
                         src: imageSrc,
                         alt: item.querySelector('img').alt,
-                        studentName: studentName
+                        studentName: studentName,
+                        type: 'image'
                     });
                 });
             });
@@ -509,6 +539,8 @@
             const modal = document.getElementById("myModal");
             const modalImg = document.getElementById("img01");
             const modalStudentName = document.getElementById("student-name-modal");
+            
+            // No video modal elements needed
             
             // Get all grid items
             const gridItems = document.querySelectorAll('.grid-item');
@@ -537,6 +569,7 @@
             const prevBtn = document.querySelector('.prev');
             const nextBtn = document.querySelector('.next');
             const closeBtn = document.querySelector('.close');
+            // No video close button needed
 
             // Function to find index in allImagesArray by src
             function findImageIndex(src) {
@@ -572,8 +605,9 @@
                 });
             });
 
-            // Add click handlers for regular grid items
+            // Add click handlers for regular grid items (skip items with iframes)
             document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
+                if (item.querySelector('iframe')) return; // Skip grid items that contain iframes
                 item.addEventListener('click', function() {
                     const img = this.querySelector('img');
                     if (img) {
@@ -583,6 +617,8 @@
                     }
                 });
             });
+            
+            // No need for video click handler as the video is embedded directly
 
             // Add click handlers for navigation
             prevBtn.addEventListener('click', showPrevImage);
@@ -599,12 +635,14 @@
                         modal.style.display = "none";
                     }
                 }
+                }
             });
 
-            // Close button handler
+            // Close button handlers
             closeBtn.addEventListener('click', function() {
                 modal.style.display = "none";
             });
+            
 
             // Close when clicking outside the image
             modal.addEventListener('click', function(event) {
@@ -612,6 +650,7 @@
                     modal.style.display = "none";
                 }
             });
+            
             
             // Scroll progress indicator
             window.addEventListener('scroll', function() {
