@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Year7 Comic Stripe about the Making of Phone Holder</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            font-family: 'Comic Sans MS', 'Marker Felt', Arial, sans-serif;
+            background: linear-gradient(135deg, #f9f7fe 0%, #e4f1fe 100%);
+            background-attachment: fixed;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #4e54c8;
+            margin: 25px 0;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite;
+            padding: 0 20px;
+            word-wrap: break-word;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .grid {
+            margin: 20px auto;
+            max-width: 100%;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .grid-item {
+            width: 200px;
+            margin: 0 10px 25px 10px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            background-color: white;
+            position: relative;
+            border: 4px solid #ffffff;
+            flex-shrink: 0;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: #ffde59;
+        }
+
+        .grid-item:nth-child(2n):hover {
+            transform: translateY(-15px) rotate(-2deg);
+            border-color: #ff9ff3;
+        }
+
+        .grid-item:nth-child(3n):hover {
+            transform: translateY(-15px) rotate(1deg);
+            border-color: #70a1ff;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .grid-item:hover img {
+            filter: brightness(1.05);
+        }
+
+        .student-name {
+            padding: 10px 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            position: relative;
+            z-index: 1;
+            background: white;
+            border-top: 2px dashed #f0f0f0;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .grid-item:hover .student-name {
+            color: #4e54c8;
+            letter-spacing: 1px;
+        }
+
+        .has-multiple-images::after {
+            content: "📑";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(45,52,54,0.9) 0%, rgba(0,0,0,0.95) 100%);
+            backdrop-filter: blur(5px);
+            padding: 50px;
+            box-sizing: border-box;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            margin: 0 auto;
+            display: block;
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            animation: zoomIn 0.4s ease;
+            border: 8px solid white;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Add styles for student name in modal */
+        .modal-student-name {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.4);
+            padding: 10px 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #ffffff;
+            font-size: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            z-index: 1001;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .close:hover {
+            color: #ff6b6b;
+            transform: rotate(90deg);
+        }
+
+        /* Navigation arrows */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            padding: 25px;
+            transition: all 0.3s ease;
+            user-select: none;
+            text-decoration: none;
+            z-index: 1001;
+            text-shadow: 0 0 15px rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(78, 84, 200, 0.8);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Fun confetti background */
+        .background-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .confetti {
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            background-color: #ff6b6b;
+            animation: confetti-fall 10s linear infinite;
+            opacity: 0.6;
+        }
+
+        .confetti:nth-child(2n) {
+            background-color: #70a1ff;
+            width: 10px;
+            height: 10px;
+            animation-duration: 13s;
+        }
+
+        .confetti:nth-child(3n) {
+            background-color: #ffde59;
+            width: 12px;
+            height: 12px;
+            animation-duration: 16s;
+        }
+
+        .confetti:nth-child(4n) {
+            background-color: #ff9ff3;
+            width: 8px;
+            height: 8px;
+            animation-duration: 19s;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                top: -100px;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 100%;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        /* Page scroll indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, #70a1ff, #ff9ff3, #ffde59);
+            z-index: 1002;
+            transition: width 0.1s;
+        }
+
+        /* Responsive tweaks */
+        @media screen and (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+                padding: 0 15px;
+            }
+            
+            .grid-item {
+                width: 160px;
+                margin: 0 5px 20px 5px;
+            }
+            
+            .modal {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+            }
+            
+            .prev, .next {
+                font-size: 40px;
+                width: 40px;
+                height: 40px;
+                padding: 15px;
+            }
+            
+            .close {
+                font-size: 40px;
+                top: 15px;
+                right: 25px;
+            }
+            
+            .modal-student-name {
+                font-size: 1.2rem;
+                padding: 8px 15px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .grid-item {
+                width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Title for the page -->
+    <h1 class="page-title">Year 7 Best Comic Strips: Phone Holder Project</h1>
+
+    <!-- Progress bar for scrolling -->
+    <div class="scroll-progress"></div>
+
+    <!-- Decorative background elements -->
+    <div class="background-decoration">
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+    </div>
+
+    <div class="grid">
+        <div class="grid-item">
+            <img src="adela.jpg" alt="Adela">
+            <div class="student-name">Adela 👍Best Colour and Fun Story</div>
+        </div>
+
+        <div class="grid-item has-multiple-images" data-images='["anisa1.jpg", "anisa2.jpg"]'>
+            <img src="anisa1.jpg" alt="Anisa">
+            <div class="student-name">Anisa 👍Best Detailed Story</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="argon.jpg" alt="Argon">
+            <div class="student-name">Argon 👍Good reader experience consideration</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="haviva.jpg" alt="Haviva">
+            <div class="student-name">Haviva 👍Effective Drawing</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="jasmine.jpg" alt="Jasmine">
+            <div class="student-name">Jasmine 👍Best Story Character</div>
+        </div>
+        
+        <div class="grid-item has-multiple-images" data-images='["leena.jpg", "leena2.jpg"]'>
+            <img src="leena.jpg" alt="Leena">
+            <div class="student-name">Leena 👍Best Typography</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="ornela.jpg" alt="Ornela">
+            <div class="student-name">Ornela 👍Best Presentation Efficiency</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="amran.jpg" alt="Amran">
+            <div class="student-name">Amran 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="hadyl.jpg" alt="Hadyl">
+            <div class="student-name">Hadyl 👍</div>
+        </div>
+
+        <div class="grid-item">
+            <img src="iduno.jpg" alt="Unknown">
+            <div class="student-name">Unknown 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="ilia.jpg" alt="Ilia">
+            <div class="student-name">Ilia 👍</div>
+        </div>
+
+        <div class="grid-item">
+            <img src="karar.jpg" alt="Karar">
+            <div class="student-name">Karar 👍</div>
+        </div>
+
+        <div class="grid-item has-multiple-images" data-images='["myshat2.jpg", "myshat.jpg"]'>
+            <img src="myshat2.jpg" alt="Myshat">
+            <div class="student-name">Myshat 👍</div>
+        </div>
+
+        <div class="grid-item">
+            <img src="rohab.jpg" alt="Rohab">
+            <div class="student-name">Rohab 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="ruben.jpg" alt="Ruben">
+            <div class="student-name">Ruben 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="sumaya.jpg" alt="Sumaya">
+            <div class="student-name">Sumaya 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="who.jpg" alt="Unknown">
+            <div class="student-name">Unknown 👍</div>
+        </div>
+        
+        <div class="grid-item">
+            <img src="who2.jpg" alt="Unknown 2">
+            <div class="student-name">Unknown 👍</div>
+        </div>
+        
+        <div class="grid-item has-multiple-images" data-images='["yousufa.jpg", "yousufa2.jpg"]'>
+            <img src="yousufa.jpg" alt="Yousuf A">
+            <div class="student-name">Yousuf A 👍</div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <a class="prev">&#10094;</a>
+        <a class="next">&#10095;</a>
+        <img class="modal-content" id="img01">
+        <!-- Added div for student name in modal -->
+        <div class="modal-student-name" id="student-name-modal"></div>
+    </div>
+
+    <!-- Masonry Library -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <!-- imagesLoaded Library -->
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <script>
+        // Ensure DOM is fully loaded before running code
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize structured image data
+            const allImagesArray = [];
+            
+            // Regular items with single images
+            document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
+                const img = item.querySelector('img');
+                if (img) {
+                    allImagesArray.push({
+                        src: img.src,
+                        alt: img.alt,
+                        studentName: item.querySelector('.student-name').textContent
+                    });
+                }
+            });
+            
+            // Items with multiple images
+            document.querySelectorAll('.grid-item.has-multiple-images').forEach(function(item) {
+                const imageList = JSON.parse(item.dataset.images);
+                const studentName = item.querySelector('.student-name').textContent;
+                
+                imageList.forEach(function(imageSrc) {
+                    allImagesArray.push({
+                        src: imageSrc,
+                        alt: item.querySelector('img').alt,
+                        studentName: studentName
+                    });
+                });
+            });
+
+            // Get the modal and modal image elements
+            const modal = document.getElementById("myModal");
+            const modalImg = document.getElementById("img01");
+            const modalStudentName = document.getElementById("student-name-modal");
+            
+            // Get all grid items
+            const gridItems = document.querySelectorAll('.grid-item');
+            let currentIndex = 0;
+
+            // Initialize Masonry with responsive settings
+            const grid = document.querySelector('.grid');
+            const msnry = new Masonry(grid, {
+                itemSelector: '.grid-item',
+                percentPosition: true,
+                gutter: 20,
+                fitWidth: true
+            });
+
+            // Re-layout Masonry after images load
+            imagesLoaded(grid).on('progress', function () {
+                msnry.layout();
+            });
+
+            // Re-layout on window resize
+            window.addEventListener('resize', function() {
+                msnry.layout();
+            });
+
+            // Get navigation elements
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            const closeBtn = document.querySelector('.close');
+
+            // Function to find index in allImagesArray by src
+            function findImageIndex(src) {
+                return allImagesArray.findIndex(img => img.src === src);
+            }
+
+            // Function to update modal content
+            function updateModalContent() {
+                modalImg.src = allImagesArray[currentIndex].src;
+                modalStudentName.textContent = allImagesArray[currentIndex].studentName;
+            }
+
+            // Functions to navigate between images
+            function showPrevImage() {
+                currentIndex = (currentIndex - 1 + allImagesArray.length) % allImagesArray.length;
+                updateModalContent();
+            }
+
+            function showNextImage() {
+                currentIndex = (currentIndex + 1) % allImagesArray.length;
+                updateModalContent();
+            }
+
+            // Add click handlers for the grid items with multiple images
+            document.querySelectorAll('.grid-item.has-multiple-images').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const imageList = JSON.parse(this.dataset.images);
+                    // Find the index of the first image in allImagesArray
+                    const firstImageSrc = imageList[0];
+                    currentIndex = findImageIndex(firstImageSrc);
+                    modal.style.display = "block";
+                    updateModalContent();
+                });
+            });
+
+            // Add click handlers for regular grid items
+            document.querySelectorAll('.grid-item:not(.has-multiple-images)').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    if (img) {
+                        currentIndex = findImageIndex(img.src);
+                        modal.style.display = "block";
+                        updateModalContent();
+                    }
+                });
+            });
+
+            // Add click handlers for navigation
+            prevBtn.addEventListener('click', showPrevImage);
+            nextBtn.addEventListener('click', showNextImage);
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (modal.style.display === "block") {
+                    if (e.key === "ArrowLeft") {
+                        showPrevImage();
+                    } else if (e.key === "ArrowRight") {
+                        showNextImage();
+                    } else if (e.key === "Escape") {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+
+            // Close button handler
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+
+            // Close when clicking outside the image
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+            
+            // Scroll progress indicator
+            window.addEventListener('scroll', function() {
+                var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                var scrolled = (winScroll / height) * 100;
+                document.querySelector(".scroll-progress").style.width = scrolled + "%";
+            });
+            
+            // Randomly position confetti elements
+            var confetti = document.querySelectorAll('.confetti');
+            confetti.forEach(function(c) {
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.animationDelay = Math.random() * 5 + 's';
+            });
+        });
+    </script>
+</body>
+</html>
